@@ -1,0 +1,25 @@
+# commit と push の前に、CI と同じ検査を手元でも回す。
+#
+#   npm install          # lefthook install まで走る（package.json の prepare）
+#   npx lefthook install  # 手で入れ直すとき
+#
+# 検査の中身は tools/git-hook.mjs。ツールが手元に無ければ、環境で止めずに通す。
+
+min_version: 2.0.0
+
+# ステージした workflow だけを jactionlint で見る
+pre-commit:
+  parallel: true
+  jobs:
+    - name: jactionlint
+      glob: ".github/workflows/*.{yml,yaml}"
+      run: node tools/git-hook.mjs jactionlint --staged
+
+# push の前に、リポジトリ全体の workflow と、履歴の秘密情報を見る
+pre-push:
+  parallel: true
+  jobs:
+    - name: jactionlint
+      run: node tools/git-hook.mjs jactionlint
+    - name: betterleaks
+      run: node tools/git-hook.mjs betterleaks

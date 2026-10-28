@@ -70,10 +70,22 @@ npm run measure                              # 切り取り・余白・文字サ
 
 ## Git hooks
 
-workflow を jactionlint で検査するフックを `.githooks/` に置いています。clone したら一度だけ有効にしてください。
+フックの管理は [lefthook](https://lefthook.dev/)（`lefthook.yml`）。`npm install` の `prepare` で入るので、clone したら依存を入れるだけで有効になります。
 
 ```bash
-git config core.hooksPath .githooks
+npm install            # lefthook install まで走る
+npx lefthook install   # 手で入れ直すとき
 ```
 
-commit ではステージした workflow だけ、push ではリポジトリ全体を見ます。jactionlint が無い環境では、検査を飛ばして通します（CI の `lint.yml` が必ず見ます）。
+| フック | 何をするか |
+|---|---|
+| `pre-commit` | ステージした `.github/workflows/*.yml` だけを jactionlint で検査 |
+| `pre-push` | リポジトリ全体を jactionlint で検査し、Betterleaks で履歴の秘密情報を見る |
+
+検査の中身は `tools/git-hook.mjs`。jactionlint / Betterleaks が手元に無ければ、環境で止めずに通します（CI の `lint.yml` が必ず見ます）。
+
+```bash
+node tools/git-hook.mjs jactionlint          # 全体
+node tools/git-hook.mjs jactionlint --staged # ステージした workflow だけ
+node tools/git-hook.mjs betterleaks          # 履歴の秘密情報
+```
