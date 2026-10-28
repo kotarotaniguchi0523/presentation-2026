@@ -12,11 +12,21 @@ concurrency:
   group: lint-${{ github.ref }}
   cancel-in-progress: true
 
-# 3 つとも数秒で終わるので、job を分けずに 1 つの runner で順に流す。
-# 分けると checkout と runner の起動を 3 回払うことになる。
-# 速く終わるものから並べて、落ちたらそこで止める。
+# job は並列に走る（step は直列）。数秒の検査でも、まとめるより並列の方が速い。
 jobs:
-  checks:
+  jactionlint:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: jdx/jactionlint@a65ab044e916760429068fe5794b8306abdfcbb9 # v2.3.0
+
+  betterleaks:
     runs-on: ubuntu-26.04
     timeout-minutes: 10
     permissions:
@@ -27,9 +37,6 @@ jobs:
           persist-credentials: false
           # betterleaks が履歴全体を見る
           fetch-depth: 0
-
-      - name: jactionlint
-        uses: jdx/jactionlint@a65ab044e916760429068fe5794b8306abdfcbb9 # v2.3.0
 
       - name: Install betterleaks
         env:
@@ -44,8 +51,18 @@ jobs:
           betterleaks --version
 
       # 履歴も含めて、秘密情報が入っていないかを見る
-      - name: betterleaks
-        run: betterleaks git .
+      - run: betterleaks git .
+
+  # vite build は型を捨てるだけで検査しない。tsrs で型を見る
+  typecheck:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       # Node は 24 系の固定。キャッシュの判定も lockfile だけを見る
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
@@ -56,7 +73,4 @@ jobs:
           check-latest: false
 
       - run: npm ci
-
-      # vite build は型を捨てるだけで検査しない。tsrs で型を見る
-      - name: typecheck
-        run: npm run check
+      - run: npm run check
