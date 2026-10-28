@@ -18,5 +18,13 @@ jactionlint
 status=$?
 
 # 3 は「workflow が無い」。止める理由にはしない
-[ "$status" -eq 3 ] && exit 0
-exit "$status"
+[ "$status" -eq 3 ] && status=0
+
+if [ "$status" -ne 0 ]; then
+  exit "$status"
+fi
+
+# 秘密情報が履歴に入っていないか（入っていなければ何もしない）
+if command -v betterleaks >/dev/null 2>&1; then
+  betterleaks git .
+fi
