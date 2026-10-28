@@ -17,6 +17,7 @@ npm run dev
 npm run build
 npm run preview
 npm run check      # 型検査（tsrs）
+npm run pdf        # dist を deck.pdf に焼く（@suraido/cli は devDependency）
 ```
 
 ## SBX（Docker Sandboxes）で作業する場合
@@ -74,7 +75,7 @@ npm run measure                              # 切り取り・余白・文字サ
 
 ```bash
 npm install            # lefthook install まで走る
-npx lefthook install   # 手で入れ直すとき
+node node_modules/lefthook/bin/index.js install   # 手で入れ直すとき
 ```
 
 | フック | 何をするか |

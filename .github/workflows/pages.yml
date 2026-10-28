@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
       contents: read
@@ -23,16 +23,19 @@ jobs:
         with:
           persist-credentials: false
 
+      # Node は 24 系の固定。キャッシュの判定も lockfile だけを見る
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 22
+          node-version: "24.22.1"
           cache: npm
+          cache-dependency-path: package-lock.json
+          check-latest: false
 
       - run: npm ci
       - run: npm run build
 
       # スライドを PDF に焼く（ランナーに Chrome が入っている）
-      - run: npx -y @suraido/cli export dist --pdf
+      - run: npm run pdf
 
       - name: Assemble the site
         run: |
@@ -47,7 +50,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
       pages: write
