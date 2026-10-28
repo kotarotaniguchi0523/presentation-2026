@@ -5,14 +5,18 @@
   "scripts": {
     "dev": "node node_modules/vite/bin/vite.js",
     "build": "node node_modules/vite/bin/vite.js build",
-    "preview": "node node_modules/vite/bin/vite.js preview"
+    "preview": "node node_modules/vite/bin/vite.js preview",
+    "check": "node node_modules/tsrs/bin/tsrs --noEmit",
+    "measure": "node tools/measure-deck.mjs"
   },
   "dependencies": {
+    "pele": "^1.12.0",
     "suraido.js": "^0.4.0"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
-    "typescript": "^5.9.0",
-    "vite": "^7.1.0"
+    "puppeteer-core": "^25.16.0",
+    "tsrs": "^0.20.0-ts7.1.0-beta",
+    "vite": "^8.3.5"
   }
 }

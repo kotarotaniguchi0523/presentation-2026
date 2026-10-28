@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>谷口昂太郎 / ポートフォリオ</title>
+    <style>
+      :root {
+        --bg: #f3eee8;
+        --fg: #2f2c2a;
+        --muted: #736a62;
+        --accent: #b35a45;
+        --rule: #ddd3c9;
+        --font: "Noto Sans JP", "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", system-ui, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: var(--font);
+        line-height: 1.7;
+      }
+
+      main {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 96px 32px 72px;
+      }
+
+      .kicker {
+        margin: 0 0 20px;
+        font-size: 15px;
+        letter-spacing: 0.12em;
+        color: var(--muted);
+      }
+
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 56px);
+        line-height: 1.25;
+        letter-spacing: -0.01em;
+      }
+
+      .lead {
+        margin: 0 0 8px;
+        font-size: clamp(18px, 2.4vw, 24px);
+      }
+
+      .name {
+        margin: 0 0 44px;
+        color: var(--muted);
+      }
+
+      .numbers {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        margin: 0 0 48px;
+        padding: 28px 0;
+        border-top: 1px solid var(--rule);
+        border-bottom: 1px solid var(--rule);
+      }
+
+      .numbers b {
+        display: block;
+        font-size: clamp(30px, 4vw, 44px);
+        line-height: 1.1;
+        color: var(--accent);
+      }
+
+      .numbers span {
+        font-size: 15px;
+        color: var(--muted);
+      }
+
+      .links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin: 0 0 56px;
+      }
+
+      a.button {
+        display: inline-block;
+        padding: 14px 26px;
+        border: 1px solid var(--accent);
+        border-radius: 999px;
+        background: var(--accent);
+        color: #fff;
+        font-size: 17px;
+        text-decoration: none;
+      }
+
+      a.button.ghost {
+        background: transparent;
+        color: var(--fg);
+        border-color: var(--rule);
+      }
+
+      h2 {
+        margin: 0 0 12px;
+        font-size: 20px;
+      }
+
+      dl {
+        display: grid;
+        grid-template-columns: 7em 1fr;
+        gap: 8px 20px;
+        margin: 0;
+        font-size: 16px;
+      }
+
+      dt {
+        color: var(--muted);
+      }
+
+      dd {
+        margin: 0;
+      }
+
+      footer {
+        margin-top: 56px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="kicker">PORTFOLIO / 2026</p>
+      <h1>予約アプリを1人で作って、1年運用しました</h1>
+      <p class="lead">要件を制約に翻訳して、作って、運用する。</p>
+      <p class="name">谷口昂太郎</p>
+
+      <div class="numbers">
+        <div>
+          <b>30〜40</b>
+          <span>予約 / 月（10人から）</span>
+        </div>
+        <div>
+          <b>10分</b>
+          <span>1件あたり（2日から）</span>
+        </div>
+        <div>
+          <b>1年</b>
+          <span>開発から運用まで</span>
+        </div>
+      </div>
+
+      <div class="links">
+        <a class="button" href="./deck/">スライドを見る</a>
+        <a class="button ghost" href="./deck.pdf">PDF</a>
+        <a class="button ghost" href="https://github.com/kotarotaniguchi0523/presentation-2026">GitHub</a>
+      </div>
+
+      <h2>作ったもの</h2>
+      <dl>
+        <dt>対象</dt>
+        <dd>オンライン塾の予約アプリ（LINE の中で開く LIFF）</dd>
+        <dt>要件</dt>
+        <dd>授業情報は Spreadsheet のまま／早く出す／LINE と Slack に通知</dd>
+        <dt>設計</dt>
+        <dd>同時予約だけ Firebase で直列化。記録は Spreadsheet、発行は Zoom</dd>
+        <dt>技術</dt>
+        <dd>Next.js / React / TypeScript / Zod / Jotai / XState / Tailwind / LiFF / Firebase / Zoom Events API</dd>
+      </dl>
+
+      <footer>© 2026 Kotaro Taniguchi</footer>
+    </main>
+  </body>
+</html>

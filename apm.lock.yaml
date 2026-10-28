@@ -1,0 +1,77 @@
+lockfile_version: '1'
+apm_version: 0.35.0
+dependencies:
+- repo_url: minorun365/minorun-marp-skill
+  name: minorun-marp-skill
+  host: github.com
+  resolved_commit: 2cd5bf5489873bd214700cfb2129ecf0ec65cdea
+  resolved_ref: 2cd5bf5489873bd214700cfb2129ecf0ec65cdea
+  version: 0.0.0
+  package_type: skill_bundle
+  deployed_files:
+  - .agents/skills/slide-design-dark
+  - .agents/skills/slide-design-dark/SKILL.md
+  - .agents/skills/slide-figures
+  - .agents/skills/slide-figures/SKILL.md
+  - .agents/skills/slide-story
+  - .agents/skills/slide-story/SKILL.md
+  deployed_file_hashes:
+    .agents/skills/slide-design-dark/SKILL.md: sha256:954095fd0da965f3cc8d014b8a35c813e74b0a2bec5cc5ed5c627942a8642649
+    .agents/skills/slide-figures/SKILL.md: sha256:caa7b5c49ac29b61e389e26da5eb07ab392d2b00081f7331ff35bd7eb3fad4e1
+    .agents/skills/slide-story/SKILL.md: sha256:87dd271997bed721d37fd6851f272e693309726938dcc82d0a9e559fffbe9c05
+  content_hash: sha256:29fb048fa751df3f1ef4505b4236013ac3270c4d6b7825e532f6c0ccd004a3af
+deployments:
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/slide-design-dark
+  runtime: null
+  scope: project
+  owners:
+  - minorun365/minorun-marp-skill
+  active_owner: minorun365/minorun-marp-skill
+  content_hash: null
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/slide-design-dark/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - minorun365/minorun-marp-skill
+  active_owner: minorun365/minorun-marp-skill
+  content_hash: sha256:954095fd0da965f3cc8d014b8a35c813e74b0a2bec5cc5ed5c627942a8642649
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/slide-figures
+  runtime: null
+  scope: project
+  owners:
+  - minorun365/minorun-marp-skill
+  active_owner: minorun365/minorun-marp-skill
+  content_hash: null
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/slide-figures/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - minorun365/minorun-marp-skill
+  active_owner: minorun365/minorun-marp-skill
+  content_hash: sha256:caa7b5c49ac29b61e389e26da5eb07ab392d2b00081f7331ff35bd7eb3fad4e1
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/slide-story
+  runtime: null
+  scope: project
+  owners:
+  - minorun365/minorun-marp-skill
+  active_owner: minorun365/minorun-marp-skill
+  content_hash: null
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/slide-story/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - minorun365/minorun-marp-skill
+  active_owner: minorun365/minorun-marp-skill
+  content_hash: sha256:87dd271997bed721d37fd6851f272e693309726938dcc82d0a9e559fffbe9c05

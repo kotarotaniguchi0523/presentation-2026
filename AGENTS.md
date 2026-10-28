@@ -82,7 +82,17 @@ declare a count, and TypeScript rejects a slide that is not one.
 
 What is left is the one thing only a browser can see: **a slide whose content runs past the
 1920x1080 canvas is clipped, and nothing on screen shows it**, because the whole stage is
-scaled down. Compare what you can read against the source, or cut the content.
+scaled down. It is measurable, so measure it instead of squinting at the screen:
+
+```bash
+npm run dev &
+npm run measure            # add --verbose for the clean slides, --json for a script
+```
+
+`tools/measure-deck.mjs` reads the `o` overview — every slide drawn at full size, so one load
+covers the deck — and reports clipping, how much padding is left at the bottom and right, text
+under 30px, contrast under 4.5:1, gaps under 72px, and images that never loaded. It exits 1 on
+a finding. The bottom and right floors are the slide's own padding, not constants.
 
 ## State
 
@@ -184,6 +194,13 @@ render() {
 `style={{ }}` works too, but it cannot express pseudo-classes, pseudo-elements, media queries
 or descendant selectors. Keep it for injecting a single value, such as `width: ${pct}%`.
 
+**A slide body is not a positioning context.** `src/slides.css` gives `.suraido-pad`
+`position: relative`, so an absolutely placed illustration or box stays inside the slide.
+
+**The type stack is pinned in `src/slides.css`** (`--suraido-font`: Noto Sans JP, then the OS
+fallbacks), not left to `system-ui`, so the same file renders the same on the venue's machine.
+`slide-design` carries the rule.
+
 **Slides are drawn on a fixed 1920x1080 canvas that is scaled to the window.** Pixels are
 always measured against that canvas, so there is no need for `clamp()`, `vw` or media queries.
 
@@ -210,4 +227,42 @@ controls in a slide just work. For something clickable that is none of those, ma
 ```
 npm run dev      development server
 npm run build    production build
+npm run check    type check (tsrs, the Rust port of the TypeScript 7 compiler)
 ```
+
+## Skills and tools
+
+`.agents/skills/` holds the slide-making skills, rewritten for suraido.js from
+[minorun-marp-skill](https://github.com/minorun365/minorun-marp-skill) (Apache-2.0).
+
+| skill | what it is for |
+|---|---|
+| `slide-story` | 話の組み立て（つかみ、中扉、答えを先に出さない、尺） |
+| `slide-figures` | 図・構成図・挿絵、SVG の描き方と実測 |
+| `slide-design` | 白地 olivia のバランス、配色、表・コード・箱 |
+| `slide-design-dark` | 黒地に切り替えたときだけ読む差分 |
+
+The split is deliberate. **This file owns the mechanics** — what breaks if you get it wrong.
+**The skills own the craft** — how much belongs on a slide, what to emphasise, what to leave
+out. The numbers live in two places only: the theme (`--suraido-*`) and the tool's defaults.
+
+`theme/minorun-dark.css` is the dark theme as a set of `--suraido-*` tokens. Import it after
+`suraido.js/deck.css` instead of `olivia` to use it; the deck's default is `olivia` (light).
+
+`tools/` measures what the eye cannot see. `puppeteer-core` is a devDependency (it does not
+download a browser); `tools/browser.mjs` finds Chrome from `CHROME_PATH` or the usual places.
+
+```
+npm run measure                     # every slide: clipping, margins, text size, contrast, gaps
+node tools/check-svg-box-fit.mjs src/images/*.svg --width 820
+node tools/check-svg-contrast.mjs src/images/*.svg
+python3 tools/check-ai-smell.py     # repeated phrasing in the slides changed since HEAD
+```
+
+`npm run measure` wants `npm run dev` running. It reads the `o` overview, where every slide is
+drawn at full size and scaled down, so one load covers the whole deck.
+
+The skills quote ripgrep (`rg`) for fishing text out of the deck. Where it is not installed,
+`git grep -n` (add `--untracked` for files git does not know yet) reads the same.
+
+

@@ -1,0 +1,19 @@
+name: presentation-2026
+version: 1.0.0
+description: APM project for presentation-2026
+author: taniguchikotaro
+
+# Skills are deployed to the shared .agents/skills/ directory (what OpenCode and
+# `npx skills` read). Pinned so `apm install` never pulls a different upstream.
+targets:
+  - agent-skills
+
+dependencies:
+  apm:
+    # 上流は Marp 用。ここでは SKILL.md を suraido.js 向けに書き直して使っている。
+    # APM は編集済みファイルを残す（--force のときだけ上流版に戻る）ので、
+    # このコミットを上げるときは書き直しもやり直す。
+    - minorun365/minorun-marp-skill#2cd5bf5489873bd214700cfb2129ecf0ec65cdea
+  mcp: []
+includes: auto
+scripts: {}

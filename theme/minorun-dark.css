@@ -1,0 +1,150 @@
+/*
+ * minorun-dark for suraido.js
+ *
+ * 黒地＋シアンのテーマ。suraido.js では見た目が `--suraido-*` のトークンで決まるので、
+ * このファイルがトークンと、テーマが持たない要素（表・コード・中扉・表紙）の型を足す。
+ *
+ * 出典: minorun-marp-skill の theme/minorun-dark.css（Apache-2.0）を suraido.js 向けに作り直したもの。
+ *
+ * src/index.tsx で deck.css のあとに読みこむ:
+ *
+ *   import "suraido.js/deck.css";
+ *   import "../theme/minorun-dark.css";
+ *   import "./slides.css";
+ *
+ * deck.css のスタイルは @layer の中にあり、ここの素のセレクタは必ず勝つ。
+ * !important も特異性の争いも要らない。
+ */
+
+:root {
+  --suraido-bg: #000000;
+  --suraido-fg: #ffffff;
+  --suraido-accent: #00c4e4; /* 黒との明度比 10.0。見出し・強調・罫線の基準色 */
+  --suraido-accent-2: #5ec4d0;
+  --suraido-muted: #a09aa4; /* 補足の文字。黒との比 4.9 */
+  --suraido-rule: #3a3640;
+  --suraido-letterbox: #000000;
+
+  /* 丸ゴシック系を想定。Zen Maru Gothic（OFL）を入れている環境ではそれ、無ければ Noto Sans JP へ */
+  --suraido-font: "Zen Maru Gothic", "Noto Sans JP", "Hiragino Maru Gothic ProN", "Yu Gothic UI", system-ui, sans-serif;
+  --suraido-font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* 1920x1080 のキャンバス上の実寸 */
+  --suraido-pad: 96px 120px;
+  --suraido-gap: 72px;
+  --suraido-h1: 96px; /* 表紙 */
+  --suraido-h2: 64px; /* 本文の見出し */
+  --suraido-h3: 40px;
+  --suraido-text: 32px; /* 本文。これ以下にしない */
+}
+
+/* 見出しは黒地の上で 10 を切ると沈む。accent がそのまま当たる */
+.stage :is(h1, h2, h3) {
+  color: var(--suraido-accent);
+  font-weight: 700;
+}
+
+/* 中扉・表紙は白抜き。背景の黒に文字を沈めない */
+.stage .crosshead :is(h1, h2) {
+  color: #ffffff;
+}
+
+.stage strong {
+  color: #ffff00; /* 純黄。黒との比 19.6 */
+}
+
+.stage em {
+  color: #a8e0e8;
+  font-style: italic;
+}
+
+.stage a {
+  color: var(--suraido-accent);
+}
+
+/*
+ * 表は地を塗らず、罫だけ。テーマ既定の面を消してから罫を引き直す。
+ * 1列目を白の太字にして、どこから読むかを決める。
+ */
+.stage table {
+  width: 100%;
+  border-collapse: collapse;
+  background: transparent;
+  font-size: 32px;
+}
+
+.stage thead,
+.stage tbody,
+.stage tr {
+  background: transparent;
+}
+
+.stage th {
+  color: var(--suraido-muted);
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-align: left;
+  padding: 0 0.7em 0.55em;
+  border: none;
+  border-bottom: 1px solid var(--suraido-rule);
+}
+
+.stage td {
+  color: #e9e6ec;
+  padding: 0.5em 0.7em;
+  line-height: 1.4;
+  vertical-align: top;
+  border: none;
+  border-bottom: 1px solid #221f28;
+}
+
+.stage tr:last-child td {
+  border-bottom: none;
+}
+
+.stage td:first-child {
+  color: #ffffff;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* コードは半透明のパネルに。地味な地に白文字、要点だけ色を付ける */
+.stage pre {
+  background: linear-gradient(165deg, rgb(255 255 255 / 10%), rgb(255 255 255 / 4.5%));
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 18px;
+  box-shadow: 0 18px 44px rgb(0 0 0 / 45%);
+  padding: 28px 32px;
+  font-size: 30px;
+  line-height: 1.35;
+}
+
+.stage pre code {
+  background: transparent;
+  padding: 0;
+  color: #f2f1f5;
+}
+
+/*
+ * 中扉と表紙。suraido ではクラスではなく <Center> を使うので、
+ * 中身の見た目だけをここで決める。マークは slide() 側で class="crosshead" を渡す。
+ */
+.stage .crosshead {
+  text-align: center;
+  align-items: center;
+}
+
+.stage .crosshead :is(h1, h2) {
+  font-size: 72px;
+  line-height: 1.35;
+}
+
+/* 表紙の下三分の一にテーマ色の帯を敷く型 */
+.stage .cover {
+  background: linear-gradient(to bottom, #000000 62%, var(--suraido-accent) 62%);
+}
+
+.stage .cover :is(h1, h2) {
+  color: #ffffff;
+}
