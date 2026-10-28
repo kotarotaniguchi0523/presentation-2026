@@ -15,11 +15,13 @@ pre-commit:
       glob: ".github/workflows/*.{yml,yaml}"
       run: node tools/git-hook.mjs jactionlint --staged
 
-# push の前に、リポジトリ全体の workflow と、履歴の秘密情報を見る
+# push の前に、リポジトリ全体の workflow と、型と、履歴の秘密情報を見る
 pre-push:
   parallel: true
   jobs:
     - name: jactionlint
       run: node tools/git-hook.mjs jactionlint
+    - name: typecheck
+      run: npm run check
     - name: betterleaks
       run: node tools/git-hook.mjs betterleaks

@@ -80,7 +80,7 @@ npx lefthook install   # 手で入れ直すとき
 | フック | 何をするか |
 |---|---|
 | `pre-commit` | ステージした `.github/workflows/*.yml` だけを jactionlint で検査 |
-| `pre-push` | リポジトリ全体を jactionlint で検査し、Betterleaks で履歴の秘密情報を見る |
+| `pre-push` | jactionlint（全体）・`npm run check`（型）・Betterleaks（履歴の秘密情報） |
 
 検査の中身は `tools/git-hook.mjs`。jactionlint / Betterleaks が手元に無ければ、環境で止めずに通します（CI の `lint.yml` が必ず見ます）。
 
