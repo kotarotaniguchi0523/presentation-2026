@@ -67,3 +67,13 @@ npm run measure                              # 切り取り・余白・文字サ
 - `className` ではなく `class` を使います。
 - `deck()` に渡すスライドはラップせず、そのまま配列に入れます（ラップすると URL と reveal が壊れます）。
 - 1920x1080 のキャンバスからはみ出した内容は、画面上では気づけないまま切れます。
+
+## Git hooks
+
+workflow を jactionlint で検査するフックを `.githooks/` に置いています。clone したら一度だけ有効にしてください。
+
+```bash
+git config core.hooksPath .githooks
+```
+
+commit ではステージした workflow だけ、push ではリポジトリ全体を見ます。jactionlint が無い環境では、検査を飛ばして通します（CI の `lint.yml` が必ず見ます）。

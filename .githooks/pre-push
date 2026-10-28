@@ -1,0 +1,22 @@
+#!/bin/sh
+# push の前に、リポジトリ全体の workflow を見る。CI と同じ検査を手元でも回す。
+#
+#   git config core.hooksPath .githooks
+#   mise use -g github:jdx/jactionlint@2.3.0   # これで jactionlint が PATH に入る
+set -u
+
+root=$(git rev-parse --show-toplevel 2>/dev/null) || exit 0
+cd "$root" || exit 0
+
+if ! command -v jactionlint >/dev/null 2>&1 || ! jactionlint --version >/dev/null 2>&1; then
+  echo "pre-push: jactionlint が動かないので、workflow の検査を飛ばしました" >&2
+  echo "pre-push: 入れるなら  mise use -g github:jdx/jactionlint@2.3.0" >&2
+  exit 0
+fi
+
+jactionlint
+status=$?
+
+# 3 は「workflow が無い」。止める理由にはしない
+[ "$status" -eq 3 ] && exit 0
+exit "$status"
